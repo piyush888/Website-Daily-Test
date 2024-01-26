@@ -8,15 +8,16 @@ from urllib3.exceptions import NewConnectionError, MaxRetryError
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-
+from drivers.chrome_driver import Chrome_Driver
+from drivers.firefox_driver import Firefox_Driver
 
 class WebsiteTester():
     def __init__(self, web_driver: str = "firefox"):
         self.driver = self.get_webdriver(web_driver=web_driver)
 
     def get_webdriver(self, web_driver):
-        if web_driver=="firefox": return webdriver.Firefox()
-        elif web_driver=="chrome": return webdriver.Chrome()
+        if web_driver=="firefox": return Firefox_Driver().get_modified_firefox_driver()
+        elif web_driver=="chrome": return Chrome_Driver().get_modified_chrome_driver()
         elif web_driver=="safari": return webdriver.Safari()
         elif web_driver=="iexplorer": return webdriver.Ie()
         elif web_driver=="webkitgtk": return webdriver.WebKitGTK()
@@ -49,26 +50,28 @@ class WebsiteTester():
                         (By.XPATH, "/html/body/div[1]/div/div/div[1]/div/form/div[2]/input")))
         password_elem.send_keys(login_password)
 
-        print("Trying to find Login button...")
-        login = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, "//button[@class='w-100 btn btn-primary' and @type='submit' and contains(text(), 'Log In')]")))
-        # login = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'btn-primary') and contains(text(), 'Log In')]")))
-
         # Modify for your ReCAPTCHA element
         if recaptcha:
             print("ATTEMPTING CAPTCHA...")
             captcha_iframe = WebDriverWait(self.driver, 30).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH, '/html/body/div[1]/div/div/div[1]/div/form/div[3]/div/div/div/div/iframe')))
             captcha = WebDriverWait(self.driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.recaptcha-checkbox-border")))
+            time.sleep(2)
             captcha.click()
+            time.sleep(2)
         
-        # Click on login button and wait
-        # if login.is_enabled():
-        #     login.click()
-        # else:
-        #     login.click()
-        #     login.click()
-        time.sleep(2)
-        print("Attempting login click...")
-        login.click()
+        # Switch frame back to main window
+        self.driver.switch_to.default_content()
+
+        print("Trying to find Login button...")
+        login = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, "//button[@class='w-100 btn btn-primary' and @type='submit' and contains(text(), 'Log In')]")))
+        # login = WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'btn-primary') and contains(text(), 'Log In')]")))
+
+        # Click on login button
+        if login.is_enabled():
+            login.click()
+        else:
+            login.click()
+            login.click()
 
 
 if __name__ == "__main__":

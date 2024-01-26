@@ -21,3 +21,11 @@ This script is designed for testing website interactions, specifically for autom
 
 ```bash
 python script.py --web-driver chrome --website https://example.com --login-email user@example.com --login-password password --recaptcha-enabled
+
+
+### Current Status
+
+## 25th January 2024
+
+-- Custom Firefox and Chrome drivers are not working properly for my website
+-- Normal Firefox driver works but Chrome driver is not able to pick any element from the login page
