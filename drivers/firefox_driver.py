@@ -8,10 +8,10 @@ from selenium.webdriver import DesiredCapabilities
 from selenium_recaptcha_solver import RecaptchaSolver
 
 class Firefox_Driver():
-    def __init__(self, savingpath='./' + datetime.now().strftime("%Y%m%d")):
+    def __init__(self, savingpath='./'):
         # Getting the absolute path for the passed savingpath
         self.rootpath = pathlib.Path(os.getcwd())
-        self.savingpath = os.path.join(self.rootpath, savingpath)
+        self.savingpath = pathlib.Path(self.rootpath, savingpath)
         self.firefox_options = Options()
         self.captcha_solver = None
 
@@ -20,6 +20,9 @@ class Firefox_Driver():
         self.prefs = {'download.default_directory': self.savingpath}
         # self.firefox_options.add_argument("--no-sandbox")
         self.profile = FirefoxProfile()
+        self.profile.set_preference("browser.download.dir", os.path.join(self.savingpath))
+        self.profile.set_preference("browser.download.folderList", 2)
+        self.profile.set_preference("browser.helperApps.neverAsk.saveToDisk", "application/octet-stream")
         self.profile.set_preference('devtools.jsonview.enabled', False)
         self.profile.set_preference("dom.webdriver.enabled", False)
         self.profile.set_preference('useAutomationExtension', False)

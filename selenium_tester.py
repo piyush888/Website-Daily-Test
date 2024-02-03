@@ -1,9 +1,11 @@
 import argparse
+import time
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from drivers.chrome_driver import Chrome_Driver
 from drivers.firefox_driver import Firefox_Driver
 from test_flows.login_workflow import login_workflow
+from test_flows.downloads_workflow import download_workflow
 
 class WebsiteTester():
     def __init__(self, web_driver: str = "firefox"):
@@ -35,6 +37,10 @@ class WebsiteTester():
         self.driver.get(website)
         
         login_workflow(driver=self.driver, captcha_solver=self.captcha_solver, login_email=kwargs['login_email'], login_password=kwargs['login_password'], recaptcha=kwargs['recaptcha'])
+
+        download_workflow(driver=self.driver)
+
+        time.sleep(2)
 
         self.driver.close()
 

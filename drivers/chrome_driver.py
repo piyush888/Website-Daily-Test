@@ -8,10 +8,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium_recaptcha_solver import RecaptchaSolver
 
 class Chrome_Driver():
-    def __init__(self, savingpath='./' + datetime.now().strftime("%Y%m%d")):
+    def __init__(self, savingpath='./'):
         # Getting the absolute path for the passed savingpath
         self.rootpath = pathlib.Path(os.getcwd())
-        self.savingpath = os.path.join(self.rootpath, savingpath)
+        self.savingpath = os.path.join(pathlib.Path(self.rootpath, savingpath))
         self.chrome_options = Options()
         self.captcha_solver = None
         self.service = Service(ChromeDriverManager().install())
