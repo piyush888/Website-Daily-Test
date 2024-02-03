@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from drivers.chrome_driver import Chrome_Driver
 from drivers.firefox_driver import Firefox_Driver
 from test_flows.login_workflow import login_workflow
-from test_flows.downloads_workflow import download_workflow
+from test_flows.concurrent_downloads_workflow import download_workflow
 
 class WebsiteTester():
     def __init__(self, web_driver: str = "firefox"):

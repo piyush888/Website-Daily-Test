@@ -35,9 +35,8 @@ python script.py --web-driver chrome --website https://example.com --login-email
 ## Current Status
 
 - Custom Firefox and Chrome drivers are now working properly for my website's login workflow.
-- Custom Firefox and Chrome drivers are now working properly for my website's downloads workflow.
+- Custom Firefox and Chrome drivers are now working properly for my website's concurrent downloads workflow.
 
 ## In Pipeline
 
 - Capability to add options and arguments to custom Firefox and Chrome driver.
-- Multithreading for multiple download testing in the downloads workflow.
