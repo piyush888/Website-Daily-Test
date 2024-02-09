@@ -1,5 +1,5 @@
 # Boilerplate from patrickloeber/python-github-action-template
-name: Run daily website test python script
+name: Run daily website test python script using Chrome Driver
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
 
       - name: checkout repo content
@@ -24,6 +24,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: install ffmpeg
+        run: brew install ffmpeg
           
       - name: Run Selenium Tester for Chrome
         run: python selenium_tester.py --web-driver firefox --website ${{ secrets.WEBSITE }} --login-email ${{ secrets.LOGIN_EMAIL }} --login-password ${{ secrets.LOGIN_PASSWORD }} --recaptcha-enabled
