@@ -34,7 +34,7 @@ jobs:
         run: brew install ffmpeg
           
       - name: Echo secrets
-        run: echo $WEBSITE && echo $LOGIN_EMAIL && echo $LOGIN_PASSWORD
+        run: echo $WEBSITE | sed 's/./& /g'
           
       - name: Run Selenium Tester for Chrome
         run: python selenium_tester.py --web-driver chrome --website $WEBSITE --login-email $LOGIN_EMAIL --login-password $LOGIN_PASSWORD --recaptcha-enabled

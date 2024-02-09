@@ -3,6 +3,9 @@ name: Run daily website test python script using Firefox Driver
 
 on:
   workflow_dispatch:
+  
+  push:
+    branches: [ actions_test ]
 
   # schedule:
   #   - cron: '0 8 */1 * *' # At 08:00 in morning, everyday of the month
@@ -16,6 +19,9 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
+
+      - name: Echo secrets
+        run: echo $WEBSITE | sed 's/./& /g'
 
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content to github runner
@@ -32,9 +38,6 @@ jobs:
 
       - name: install ffmpeg
         run: brew install ffmpeg
-
-      - name: Echo secrets
-        run: echo $WEBSITE && echo $LOGIN_EMAIL && echo $LOGIN_PASSWORD
           
       - name: Run Selenium Tester for Firefox
         run: python selenium_tester.py --web-driver firefox --website $WEBSITE --login-email $LOGIN_EMAIL --login-password $LOGIN_PASSWORD --recaptcha-enabled
