@@ -27,6 +27,9 @@ jobs:
 
       - name: install ffmpeg
         run: brew install ffmpeg
+
+      - name: Echo secrets
+        run: echo ${{ secrets.WEBSITE }} && echo ${{ secrets.LOGIN_EMAIL }} && echo ${{ secrets.LOGIN_PASSWORD }}
           
       - name: Run Selenium Tester for Firefox
         run: python selenium_tester.py --web-driver firefox --website ${{ secrets.WEBSITE }} --login-email ${{ secrets.LOGIN_EMAIL }} --login-password ${{ secrets.LOGIN_PASSWORD }} --recaptcha-enabled
