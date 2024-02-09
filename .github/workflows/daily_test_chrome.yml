@@ -7,6 +7,11 @@ on:
   # schedule:
   #   - cron: '0 8 */1 * *' # At 08:00 in morning, everyday of the month
 
+env:
+  WEBSITE: ${{ secrets.WEBSITE }}
+  LOGIN_EMAIL: ${{ secrets.LOGIN_EMAIL }}
+  LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+
 jobs:
   build:
     runs-on: macos-latest
@@ -28,5 +33,8 @@ jobs:
       - name: install ffmpeg
         run: brew install ffmpeg
           
+      - name: Echo secrets
+        run: echo $WEBSITE && echo $LOGIN_EMAIL && echo $LOGIN_PASSWORD
+          
       - name: Run Selenium Tester for Chrome
-        run: python selenium_tester.py --web-driver firefox --website ${{ secrets.WEBSITE }} --login-email ${{ secrets.LOGIN_EMAIL }} --login-password ${{ secrets.LOGIN_PASSWORD }} --recaptcha-enabled
+        run: python selenium_tester.py --web-driver chrome --website $WEBSITE --login-email $LOGIN_EMAIL --login-password $LOGIN_PASSWORD --recaptcha-enabled
