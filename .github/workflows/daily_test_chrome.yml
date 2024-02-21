@@ -7,8 +7,8 @@ on:
   push:
     branches: [ actions_test ]
 
-  # schedule:
-  #   - cron: '0 8 */1 * *' # At 08:00 in morning, everyday of the month
+  schedule:
+    - cron: '0 8 */1 * *' # At 08:00 in morning, everyday of the month
 
 env:
   WEBSITE: ${{ secrets.WEBSITE }}
